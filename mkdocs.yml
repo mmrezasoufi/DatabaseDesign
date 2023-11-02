@@ -43,4 +43,5 @@ plugins:
 nav:
     - Home: index.md
     - Announcements: announcements.md
+    - Recourses: resources.md
     - Issue Tracker: 'https://github.com/m-zakeri/DatabaseDesign/issues'
