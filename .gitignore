@@ -1,3 +1,5 @@
+django_app/db.sqlite3
+django_app/static
 *__pycache__/
 .DS_Store
 venv/
