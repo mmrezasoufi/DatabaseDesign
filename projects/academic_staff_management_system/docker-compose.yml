@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+
+    command: pnpm dev
+
+    ports:
+      - 5174:5173
+    
+    volumes:
+      - ./frontend/:/app/
+      - node_modules:/srv/app/node_modules
+    
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    
+    working_dir: /backend/
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8001:8000
+    volumes:
+      - ./backend/:/backend/
+      - static:/backend/static/
+  
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    
+    ports:
+      - 8080:80
+    
+    volumes:
+      - static:/backend/static/
+    
+
+volumes:
+  node_modules:
+  static:
