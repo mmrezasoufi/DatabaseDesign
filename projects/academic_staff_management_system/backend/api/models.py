@@ -9,10 +9,11 @@ class Address(models.Model):
     city = models.CharField(max_length=255)
     street = models.CharField(max_length=255)
     street_number = models.IntegerField()
-    building = models.CharField(max_length=255)
+    building_name = models.CharField(max_length=255)
     district = models.CharField(max_length=255)
     floor = models.IntegerField()
     unit_number = models.IntegerField()
+    plate_number = models.CharField(max_length=10)
     postal_code = models.CharField(max_length=20)
     coordinate = models.CharField(max_length=255)
     note = models.TextField(null=True, blank=True)
@@ -29,27 +30,20 @@ class Education(models.Model):
 
 
 class PhoneNumber(models.Model):
-    PHONE_TYPES = (
-        ('Mobile', 'Mobile'),
-        ('Work', 'Work'),
-        ('Home', 'Home')
-    )
+    PHONE_TYPES = (("Mobile", "Mobile"), ("Work", "Work"), ("Home", "Home"))
     phone_number = models.CharField(max_length=20)
-    phone_type = models.CharField(max_length=6, choices=PHONE_TYPES, default='Mobile')
+    phone_type = models.CharField(max_length=6, choices=PHONE_TYPES, default="Mobile")
 
 
 class Person(AbstractUser):
-    GENDER_TYPES = (
-        ('M', 'Male'),
-        ('F', 'Female')
-    )
+    GENDER_TYPES = (("M", "Male"), ("F", "Female"))
     persian_first_name = models.CharField(max_length=255)
     persian_last_name = models.CharField(max_length=255)
     gender = models.CharField(max_length=1, choices=GENDER_TYPES)
     date_of_birth = models.DateField()
     nationality = models.CharField(max_length=255)
     national_code = models.CharField(max_length=20, unique=True)
-    picture = models.ImageField(upload_to='images/')
+    picture = models.ImageField(upload_to="images/")
     home_address = models.ForeignKey(Address, on_delete=models.CASCADE)
     educations = models.ForeignKey(Education, on_delete=models.CASCADE)
     phone_numbers = models.ManyToManyField(PhoneNumber)
@@ -57,7 +51,7 @@ class Person(AbstractUser):
     def clean(self):
         super().clean()
         if not self.phone_numbers.filter(phone_type="Mobile").exists():
-            raise ValidationError('One Phone number wit type Mobile is required.')
+            raise ValidationError("One Phone number wit type Mobile is required.")
 
     def get_age(self):
         """
@@ -83,7 +77,7 @@ class Person(AbstractUser):
         """
         Return the persian_first_name and persian_last_name.
         """
-        return f'{self.persian_first_name} {self.persian_last_name}'
+        return f"{self.persian_first_name} {self.persian_last_name}"
 
 
 class Building(models.Model):
@@ -92,7 +86,7 @@ class Building(models.Model):
     floors = models.IntegerField()
     capacity = models.IntegerField()
     rooms = models.IntegerField()
-    address = models.ForeignKey(Address, on_delete=models.CASCADE, related_name="location")
+    address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
 
 class Faculty(models.Model):
@@ -110,13 +104,7 @@ class Department(models.Model):
 
 class Office(models.Model):
     phone_number = models.ForeignKey(PhoneNumber, on_delete=models.CASCADE)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
-
-
-class Field(models.Model):
-    name = models.CharField(max_length=255)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE, related_name='fields')
-    # head_instructor = models.OneToOneField('Instructor', on_delete=models.SET_NULL, null=True, blank=True)
+    department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
 
 
 class Employee(Person):
@@ -127,23 +115,77 @@ class Employee(Person):
     office = models.ManyToManyField(Office)
     is_committee = models.BooleanField()
 
-    class Meta:
-        abstract = True
-        proxy = True
+
+class Field(models.Model):
+    name = models.CharField(max_length=255)
+    department = models.ForeignKey(
+        Department, on_delete=models.CASCADE, related_name="fields"
+    )
+    head = models.OneToOneField(
+        "Instructor", on_delete=models.SET_NULL, null=True, related_name="head_of_field"
+    )
 
 
 class Instructor(Employee):
     instructor_type = models.CharField(max_length=255)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
-
-    class Meta:
-        proxy = True
+    is_in_committee = models.BooleanField(default=False)
 
 
 class Researcher(Employee):
-    researcher_type = models.CharField(max_length=255)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
 
-    class Meta:
-        proxy = True
 
+class Research(models.Model):
+    title = models.CharField(max_length=255)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True)
+    search_area = models.TextField()
+    funding_source = models.TextField()
+    budget = models.IntegerField()
+    discription = models.TextField()
+    publication = models.TextField()
+    keywords = models.TextField()
+    STATUS_CHOICE = [("ToDo", "ToDo"), ("InProgress", "InProgress"), ("Done", "Done")]
+    status = models.CharField(choices=STATUS_CHOICE, max_length=10, default="ToDo")
+    website = models.TextField()
+    related_research = models.TextField()
+
+
+class ResearchMember(models.Model):
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, null=True)
+    researcher = models.ForeignKey(Researcher, on_delete=models.CASCADE, null=True)
+    research = models.ForeignKey(Research, on_delete=models.CASCADE)
+    role = models.CharField(max_length=255)
+
+
+class Schedule(models.Model):
+    DAY_CHOICES = [
+        ("Sat", "Satureday"),
+        ("Sun", "Sunday"),
+        ("Mon", "Monday"),
+        ("Tue", "Tuesday"),
+        ("Wed", "Wednesday"),
+        ("Thu", "Thursday"),
+        ("Fri", "Friday"),
+    ]
+    day = models.CharField(choices=DAY_CHOICES, max_length=10)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+
+class Labratory(models.Model):
+    name = models.CharField(max_length=255)
+    equipments = models.TextField()
+    capacity = models.IntegerField()
+    budget = models.IntegerField()
+    managers = models.ManyToManyField(Employee)
+    schedules = models.ManyToManyField(Schedule)
+
+
+class Library(models.Model):
+    name = models.CharField(max_length=255)
+    capcity = models.IntegerField()
+    books = models.IntegerField()
+    managers = models.ManyToManyField(Employee)
+    schedules = models.ManyToManyField(Schedule)
