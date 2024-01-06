@@ -1,7 +1,8 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-import datetime
 
 
 class Address(models.Model):
@@ -9,7 +10,7 @@ class Address(models.Model):
     city = models.CharField(max_length=255)
     street = models.CharField(max_length=255)
     street_number = models.IntegerField()
-    building_name = models.CharField(max_length=255)
+    building_name = models.CharField(max_length=255, blank=True)
     district = models.CharField(max_length=255)
     floor = models.IntegerField()
     unit_number = models.IntegerField()
@@ -24,7 +25,8 @@ class Education(models.Model):
     graduation_date = models.DateField()
     major = models.CharField(max_length=255)
     degree = models.CharField(max_length=255)
-    gpa = models.IntegerField()
+    # why max_digit is 5
+    gpa = models.DecimalField(max_digits=5, decimal_places=2)
     institution_name = models.CharField(max_length=255)
     institution_address = models.ForeignKey(Address, on_delete=models.CASCADE)
 
@@ -35,7 +37,12 @@ class PhoneNumber(models.Model):
     phone_type = models.CharField(max_length=6, choices=PHONE_TYPES, default="Mobile")
 
 
-class Person(User):
+class Person(models.Model):
+    class Meta:
+        verbose_name = "Person"
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     GENDER_TYPES = (("M", "Male"), ("F", "Female"))
     persian_first_name = models.CharField(max_length=255)
     persian_last_name = models.CharField(max_length=255)
@@ -44,13 +51,15 @@ class Person(User):
     nationality = models.CharField(max_length=255)
     national_code = models.CharField(max_length=20, unique=True)
     picture = models.ImageField(upload_to="images/")
-    home_address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
-    educations = models.ManyToManyField(Education)
-    phone_numbers = models.ManyToManyField(PhoneNumber)
+    home_address = models.ForeignKey(
+        Address, on_delete=models.SET_NULL, blank=True, null=True
+    )
+    educations = models.ManyToManyField(Education, blank=True)
+    phone_numbers = models.ManyToManyField(PhoneNumber, blank=True)
 
     def clean(self):
         if not self.phone_numbers.filter(phone_type="Mobile").exists():
-            raise ValidationError("One Phone number with type Mobile is required.")
+            raise ValidationError("One Phone number wit type Mobile is required.")
 
     def get_age(self):
         """
@@ -106,7 +115,12 @@ class Office(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True)
 
 
-class Employee(Person):
+class Employee(models.Model):
+    class Meta:
+        verbose_name = "Employee"
+
+    person = models.OneToOneField(Person, on_delete=models.CASCADE)
+
     salary = models.IntegerField()
     hire_date = models.DateField()
     office_hours = models.CharField(max_length=255)
@@ -125,7 +139,12 @@ class Field(models.Model):
     )
 
 
-class Professor(Employee):
+class Professor(models.Model):
+    class Meta:
+        verbose_name = "Professor"
+
+    employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
+
     RANK_CHOICES = [
         ("Instructor", "Instructor"),
         ("Assistant Professor", "Assistant Professor"),
@@ -137,7 +156,8 @@ class Professor(Employee):
     is_in_committee = models.BooleanField(default=False)
 
 
-class Researcher(Employee):
+class Researcher(models.Model):
+    employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
 
 
@@ -148,7 +168,7 @@ class Research(models.Model):
     search_area = models.TextField()
     funding_source = models.TextField()
     budget = models.IntegerField()
-    discription = models.TextField()
+    description = models.TextField()
     publication = models.TextField()
     keywords = models.TextField()
     STATUS_CHOICE = [("ToDo", "ToDo"), ("InProgress", "InProgress"), ("Done", "Done")]
@@ -166,7 +186,7 @@ class ResearchMember(models.Model):
 
 class Schedule(models.Model):
     DAY_CHOICES = [
-        ("Sat", "Satureday"),
+        ("Sat", "Saturday"),
         ("Sun", "Sunday"),
         ("Mon", "Monday"),
         ("Tue", "Tuesday"),
@@ -179,7 +199,7 @@ class Schedule(models.Model):
     end_time = models.TimeField()
 
 
-class Labratory(models.Model):
+class Laboratory(models.Model):
     name = models.CharField(max_length=255)
     equipments = models.TextField()
     capacity = models.IntegerField()
@@ -190,12 +210,12 @@ class Labratory(models.Model):
     def clean(self):
         days_of_schedules = [schedule.day for schedule in self.schedules]
         if len(set(days_of_schedules)) != len(days_of_schedules):
-            raise ValidationError("Days of labratory's schedules should be unique")
+            raise ValidationError("Days of laboratory's schedules should be unique")
 
 
 class Library(models.Model):
     name = models.CharField(max_length=255)
-    capcity = models.IntegerField()
+    capacity = models.IntegerField()
     books = models.IntegerField()
     managers = models.ManyToManyField(Employee)
     schedules = models.ManyToManyField(Schedule)
