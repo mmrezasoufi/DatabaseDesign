@@ -25,7 +25,6 @@ class Education(models.Model):
     graduation_date = models.DateField()
     major = models.CharField(max_length=255)
     degree = models.CharField(max_length=255)
-    # why max_digit is 5
     gpa = models.DecimalField(max_digits=5, decimal_places=2)
     institution_name = models.CharField(max_length=255)
     institution_address = models.ForeignKey(Address, on_delete=models.CASCADE)
@@ -48,7 +47,9 @@ class Person(models.Model):
     persian_last_name = models.CharField(max_length=255)
     gender = models.CharField(max_length=1, choices=GENDER_TYPES)
     date_of_birth = models.DateField(null=True)
-    nationality = models.CharField(max_length=255)
+    nationality = models.CharField(
+        max_length=255,
+    )
     national_code = models.CharField(max_length=20, unique=True)
     picture = models.ImageField(upload_to="images/")
     home_address = models.ForeignKey(
@@ -57,9 +58,9 @@ class Person(models.Model):
     educations = models.ManyToManyField(Education, blank=True)
     phone_numbers = models.ManyToManyField(PhoneNumber, blank=True)
 
-    def clean(self):
-        if not self.phone_numbers.filter(phone_type="Mobile").exists():
-            raise ValidationError("One Phone number wit type Mobile is required.")
+    # def clean(self):
+    #     if not self.phone_numbers.filter(phone_type="Mobile").exists():
+    #         raise ValidationError("One Phone number with type Mobile is required.")
 
     def get_age(self):
         """
