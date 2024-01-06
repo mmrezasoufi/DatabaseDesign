@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from rest_framework import permissions, viewsets
 from django.contrib.auth.models import User
+
 from . import serializers
 from . import models
 
@@ -85,7 +86,7 @@ class ResearcherViewSet(viewsets.ModelViewSet):
 
 class ResearchViewSet(viewsets.ModelViewSet):
     queryset = models.Research.objects.all()
-    serializer_class = serializers.ResearchSerializer
+    serializer_class = serializers.ResearcherSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
