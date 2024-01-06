@@ -11,5 +11,3 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY ./package.json ./
 COPY ./pnpm-lock.yaml ./
 RUN pnpm install
-
-COPY . ./
