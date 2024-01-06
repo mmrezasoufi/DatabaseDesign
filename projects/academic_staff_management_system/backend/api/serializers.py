@@ -47,3 +47,39 @@ class BuildingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Building
         fields = "__all__"
+
+
+class FacultySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Faculty
+        fields = "__all__"
+
+
+class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Department
+        fields = "__all__"
+
+
+class OfficeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Office
+        fields = "__all__"
+
+
+class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Employee
+        fields = "__all__"
+
+
+class FieldSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Field
+        fields = "__all__"
+
+
+class ProfessorSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Professor
+        fields = "__all__"

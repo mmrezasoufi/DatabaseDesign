@@ -39,3 +39,38 @@ class BuildingViewSet(viewsets.ModelViewSet):
     queryset = models.Building.objects.all()
     serializer_class = serializers.BuildingSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class FacultyViewSet(viewsets.ModelViewSet):
+    queryset = models.Faculty.objects.all()
+    serializer_class = serializers.FacultySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = models.Department.objects.all()
+    serializer_class = serializers.DepartmentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class OfficeViewSet(viewsets.ModelViewSet):
+    queryset = models.Office.objects.all()
+    serializer_class = serializers.OfficeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class EmployeeViewSet(viewsets.ModelViewSet):
+    queryset = models.Employee.objects.all()
+    serializer_class = serializers.EmployeeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class FieldViewSet(viewsets.ModelViewSet):
+    queryset = models.Field.objects.all()
+    serializer_class = serializers.FieldSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class ProfessorViewSet(viewsets.ModelViewSet):
+    queryset = models.Professor.objects.all()
+    serializer_class = serializers.PersonSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
