@@ -1,85 +1,34 @@
-from rest_framework import serializers
-from django.contrib.auth.models import User
-from . import models
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class ResearcherSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = [
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "is_staff",
-            "is_active",
-            "is_superuser",
-            "last_login",
-            "date_joined",
-        ]
-
-
-class PersonSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Person
+        model = models.Researcher
         fields = "__all__"
 
 
-class AddressSerializer(serializers.HyperlinkedModelSerializer):
+class ResearchSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Address
+        model = models.Research
         fields = "__all__"
 
 
-class EducationSerializer(serializers.HyperlinkedModelSerializer):
+class ResearchMemberSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Education
+        model = models.ResearchMember
         fields = "__all__"
 
 
-class PhoneNumberSerializer(serializers.HyperlinkedModelSerializer):
+class ScheduleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.PhoneNumber
+        model = models.Schedule
         fields = "__all__"
 
 
-class BuildingSerializer(serializers.HyperlinkedModelSerializer):
+class LaboratorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Building
+        model = models.Laboratory
         fields = "__all__"
 
 
-class FacultySerializer(serializers.HyperlinkedModelSerializer):
+class LibrarySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Faculty
-        fields = "__all__"
-
-
-class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Department
-        fields = "__all__"
-
-
-class OfficeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Office
-        fields = "__all__"
-
-
-class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Employee
-        fields = "__all__"
-
-
-class FieldSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Field
-        fields = "__all__"
-
-
-class ProfessorSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Professor
+        model = models.Library
         fields = "__all__"
