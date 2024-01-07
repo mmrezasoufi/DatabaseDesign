@@ -74,3 +74,63 @@ class OfficeFilter(filters.FilterSet):
     class Meta:
         model = models.Office
         fields = "__all__"
+
+
+class EmployeeFilter(filters.FilterSet):
+    class Meta:
+        model = models.Employee
+        fields = "__all__"
+
+
+class FieldFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.Field
+        fields = "__all__"
+
+
+class ProfessorFilter(filters.FilterSet):
+    class Meta:
+        model = models.Professor
+        fields = "__all__"
+
+
+class ResearcherFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.Researcher
+        fields = "__all__"
+
+
+class ResearchFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.Research
+        fields = "__all__"
+
+
+class ResearchMemberFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.ResearchMember
+        fields = "__all__"
+
+
+class ScheduleFilter(filters.FilterSet):
+    class Meta:
+        model = models.Schedule
+        fields = "__all__"
+
+
+class LaboratoryFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.Laboratory
+        fields = "__all__"
+
+
+class LibraryFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.Library
+        fields = "__all__"
