@@ -1,0 +1,16 @@
+FROM python:3.11-slim-bullseye
+
+
+WORKDIR /backend/
+
+ENV PYTHONUNBUFFERED 1
+
+RUN pip install -U pip
+COPY ./requirements.txt .
+
+RUN pip install -r requirements.txt
+
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]

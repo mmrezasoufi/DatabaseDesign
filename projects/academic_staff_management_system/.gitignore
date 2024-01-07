@@ -1,0 +1,8 @@
+# Python compilation
+__pycache__/
+
+# Environment foolder
+env/
+.env/
+venv/
+
