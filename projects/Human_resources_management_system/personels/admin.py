@@ -3,22 +3,22 @@ from .models import Personel, Position, Payroll, VacationRequest, PerformanceRev
 
 
 @admin.register(Personel)
-class PersonelAdmin(admin.ModelAdmin):
+class PersonalAdmin(admin.ModelAdmin):
     list_display = ("user", "position", "created")
 
 
 @admin.register(Position)
-class PersonelAdmin(admin.ModelAdmin):
+class PositionAdmin(admin.ModelAdmin):
     list_display = ("name", "job_title", "created")
 
 
 @admin.register(Payroll)
-class PersonelAdmin(admin.ModelAdmin):
+class PayrollAdmin(admin.ModelAdmin):
     list_display = ("personel", "salary", "reward", "pay_date", "created")
 
 
 @admin.register(VacationRequest)
-class PersonelAdmin(admin.ModelAdmin):
+class VacationRequestAdmin(admin.ModelAdmin):
     list_display = (
         "personel",
         "request_date",
@@ -29,5 +29,5 @@ class PersonelAdmin(admin.ModelAdmin):
 
 
 @admin.register(PerformanceReview)
-class PersonelAdmin(admin.ModelAdmin):
-    list_display = ("rewiewer", "personel", "score", "created")
+class PerformanceReviewAdmin(admin.ModelAdmin):
+    list_display = ("reviewer", "personel", "score", "created")
