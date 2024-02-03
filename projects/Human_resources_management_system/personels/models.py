@@ -33,7 +33,7 @@ class Personel(models.Model):
         verbose_name_plural = "personels"
 
     def __str__(self) -> str:
-        return f"{self.user} - {self.position}"
+        return f"{self.user.username} - personel"
 
 
 class VacationRequest(models.Model):
@@ -51,7 +51,7 @@ class VacationRequest(models.Model):
         verbose_name_plural = "vacation reqeusts"
 
     def __str__(self) -> str:
-        return f"{self.personel} - {self.description}"
+        return f"{self.personel} - vacation_request"
 
 
 class Payroll(models.Model):
@@ -73,19 +73,18 @@ class Payroll(models.Model):
 
 class PerformanceReview(models.Model):
     reviewer = models.ForeignKey(
-        Personel, on_delete=models.CASCADE, related_name="performace_reviewer"
+        Personel, on_delete=models.CASCADE, related_name="performance_reviewer"
     )
     personel = models.ForeignKey(
-        Personel,
-        on_delete=models.CASCADE,
-        description=models.TextField(null=True, blank=True),
+        Personel, on_delete=models.CASCADE, related_name="reviewed"
     )
+    description = models.TextField(null=True, blank=True)
     score = models.PositiveSmallIntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "performace review"
-        verbose_name_plural = "performace reviews"
+        verbose_name = "performance review"
+        verbose_name_plural = "performance reviews"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"per:{self.personel} - rev:{self.reviewer}"
