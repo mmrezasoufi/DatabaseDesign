@@ -7,18 +7,19 @@ class Interview(models.Model):
     interviewer = models.ForeignKey(
         Personel, on_delete=models.CASCADE, related_name="interviews"
     )
-    aplier = models.ForeignKey(
+    applier = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="interviews"
     )
     stage = models.PositiveSmallIntegerField(default=0)
-    interview_date = models.DateTimeField(auto_now_add=True)
+    interview_date = models.DateTimeField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "interview"
         verbose_name_plural = "interviews"
 
-    def __str__(self):
-        return f"inte:{self.interviewer} - appl:{self.aplier}"
+    def __str__(self) -> str:
+        return f"inte:{self.interviewer} - appl:{self.applier}"
 
 
 class Meeting(models.Model):
@@ -27,12 +28,14 @@ class Meeting(models.Model):
     )
     title = models.CharField(max_length=45, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "meeting"
         verbose_name_plural = "meetings"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.title}"
 
 
@@ -43,6 +46,11 @@ class PersonelsMeeting(models.Model):
     meeting = models.ForeignKey(
         Meeting, on_delete=models.CASCADE, related_name="personels_meeting"
     )
+    created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    class Meta:
+        verbose_name = "personel meeting"
+        verbose_name_plural = "personels meeting"
+
+    def __str__(self) -> str:
         return f"{self.personel} - {self.meeting}"
