@@ -1,5 +1,35 @@
 # Human Resource Management System
 
+# Run
+## Venv And Dependencies
+Create a virtual env, then install dependencies with pip.
+
+Linux
+```bash
+python -m virtualenv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+Windows
+```cmd
+python -m virtualenv .venv
+.\\venv\bin\activate
+pip install -r requirements.txt
+```
+## Migration
+```bash
+python manage.py migrate
+```
+## Create Admin
+```bash
+python manage.py createsuperuser
+```
+## Run The Test Server
+```
+python manage.py runserver
+```
+you can optionally specify a ip and port
+
 # ERD
 ![hrms ER Diagram](https://raw.githubusercontent.com/ArmanLK/DatabaseDesign/main/projects/Human_resources_management_system/hrms_diagram.png)
 
