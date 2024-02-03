@@ -8,17 +8,21 @@ class ResumeAdmin(admin.ModelAdmin):
 
 
 @admin.register(Degree)
-class ResumeAdmin(admin.ModelAdmin):
+class DegreeAdmin(admin.ModelAdmin):
     list_display = ("resume", "degree", "institute", "field", "created")
 
 
 @admin.register(Skill)
-class ResumeAdmin(admin.ModelAdmin):
+class SkillAdmin(admin.ModelAdmin):
     list_display = ("resume", "title", "created")
-    
+
 
 @admin.register(Experinece)
-class ResumeAdmin(admin.ModelAdmin):
-    list_display = ("resume", "position", "company_name", "years_of_experience", "created")
-
-    
+class ExperineceAdmin(admin.ModelAdmin):
+    list_display = (
+        "resume",
+        "position",
+        "company_name",
+        "years_of_experience",
+        "created",
+    )

@@ -71,7 +71,7 @@ class Payroll(models.Model):
         return f"{self.personel} - {self.salary}"
 
 
-class PerformaceReview(models.Model):
+class PerformanceReview(models.Model):
     reviewer = models.ForeignKey(
         Personel, on_delete=models.CASCADE, related_name="performace_reviewer"
     )
