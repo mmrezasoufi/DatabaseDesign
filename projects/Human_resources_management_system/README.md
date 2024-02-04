@@ -28,7 +28,42 @@ python manage.py createsuperuser
 ```
 python manage.py runserver
 ```
-you can optionally specify a ip and port
+you can optionally specify a IP and port
+
+# Defined URLS
+## admin/
+Django's admin menu
+
+## users/
+- `users/`
+- `user/detail/<username>`
+
+## personels/
+- `personels/`
+- `personels/detail/<username>`
+- `personels/vacation_requests/`
+- `personels/payroll/`
+- `personels/performance_review/`
+
+## course/
+- `course/`
+- `course/personel`
+
+## department/
+- `department/`
+- `department/buildings/`
+- `department/director/<directory>/`
+
+## resume/
+- `resume/`
+- `resume/detail/<username>/`
+
+## meeting/
+
+## interview/
+- `interview/`
+- `interview/list/`
+- `interview/stablisher/<username>/` 
 
 # ERD
 ![hrms ER Diagram](https://raw.githubusercontent.com/ArmanLK/DatabaseDesign/main/projects/Human_resources_management_system/hrms_diagram.png)
