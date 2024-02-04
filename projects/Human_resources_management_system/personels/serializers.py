@@ -81,5 +81,4 @@ class PerformanceReviewSerializer(serializers.ModelSerializer):
         fields = ("reviewer", "personel", "description", "score", "created")
 
     def get_created(self, obj):
-        return obj.created.date()
-        
+        return obj.created.date() 
