@@ -1,17 +1,10 @@
 from django.contrib import admin
-from .models import User, WasEmployeed, PhoneNumber, Addresses
+from .models import User, WasEmployeed, PhoneNumber, Address
 
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = (
-        "username",
-        "first_name",
-        "last_name",
-        "birth_date",
-        "gender",
-        "created",
-    )
+    list_display = ("username", "first_name", "last_name", "birth_date", "gender", "created")
     list_filter = ("gender",)
     list_editable = ("gender",)
 
@@ -26,6 +19,7 @@ class PhoneNumberAdmin(admin.ModelAdmin):
     list_display = ("user", "main_number", "home_number", "second_number", "created")
 
 
-@admin.register(Addresses)
-class AddressesAdmin(admin.ModelAdmin):
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
     list_display = ("user", "country", "city", "zone", "created")
+            

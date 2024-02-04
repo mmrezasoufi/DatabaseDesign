@@ -3,6 +3,7 @@ from users.models import User
 
 
 class Position(models.Model):
+    
     name = models.CharField(max_length=45, null=True, blank=True)
     job_title = models.CharField(max_length=45, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -13,19 +14,12 @@ class Position(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} - {self.job_title}"
-
+    
 
 class Personel(models.Model):
-    user = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name="personels"
-    )
-    position = models.ForeignKey(
-        Position,
-        on_delete=models.SET_NULL,
-        related_name="personels",
-        null=True,
-        blank=True,
-    )
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="personels")
+    position = models.OneToOneField(Position, on_delete=models.SET_NULL, related_name="personels", null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -37,9 +31,8 @@ class Personel(models.Model):
 
 
 class VacationRequest(models.Model):
-    personel = models.ForeignKey(
-        Personel, on_delete=models.CASCADE, related_name="vacation_requests"
-    )
+
+    personel = models.ForeignKey(Personel, on_delete=models.CASCADE, related_name="vacation_requests")
     description = models.TextField(null=True, blank=True)
     request_date = models.DateTimeField(null=True, blank=True)
     vacation_start = models.DateTimeField(null=True, blank=True)
@@ -55,9 +48,8 @@ class VacationRequest(models.Model):
 
 
 class Payroll(models.Model):
-    personel = models.ForeignKey(
-        Personel, on_delete=models.PROTECT, related_name="payrolls"
-    )
+
+    personel = models.ForeignKey(Personel, on_delete=models.PROTECT, related_name="payrolls")
     salary = models.IntegerField(default=0)
     reward = models.IntegerField(default=0)
     pay_date = models.DateTimeField(null=True, blank=True)
@@ -72,12 +64,9 @@ class Payroll(models.Model):
 
 
 class PerformanceReview(models.Model):
-    reviewer = models.ForeignKey(
-        Personel, on_delete=models.CASCADE, related_name="performance_reviewer"
-    )
-    personel = models.ForeignKey(
-        Personel, on_delete=models.CASCADE, related_name="reviewed"
-    )
+
+    reviewer = models.ForeignKey(Personel, on_delete=models.CASCADE, related_name="performance_reviewer")
+    personel = models.ForeignKey(Personel, on_delete=models.CASCADE, related_name="reviewed")
     description = models.TextField(null=True, blank=True)
     score = models.PositiveSmallIntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
