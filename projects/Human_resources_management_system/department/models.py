@@ -11,6 +11,7 @@ class Department(models.Model):
     class Meta:
         verbose_name = "department"
         verbose_name_plural = "departments"
+        ordering = ("-created",)
 
     def __str__(self) -> str:
         return f"{self.name}"
@@ -26,6 +27,7 @@ class Building(models.Model):
     class Meta:
         verbose_name = "building"
         verbose_name_plural = "buildings"
+        ordering = ("-created",)
 
     def __str__(self) -> str:
         return f"{self.city}"
@@ -40,6 +42,7 @@ class BuildingDepartment(models.Model):
     class Meta:
         verbose_name = "building department"
         verbose_name_plural = "building departments"
+        ordering = ("-created",)
 
     def __str__(self) -> str:
         return f"{self.building} - {self.department}"
