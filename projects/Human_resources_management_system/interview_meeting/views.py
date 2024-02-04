@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAdminUser
 from django.shortcuts import get_list_or_404
 from .models import Interview, Meeting, PersonelsMeeting
 from .serializers import InterviewSerializer, MeetingSerializer, PersonelsMeetingSerializer
@@ -6,6 +7,7 @@ from utils import CustomPagination
 
 
 class InterviewList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = InterviewSerializer
     pagination_class = CustomPagination
 
@@ -15,6 +17,7 @@ class InterviewList(ListAPIView):
     
 
 class MeetingList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = MeetingSerializer
     pagination_class = CustomPagination
 
@@ -24,6 +27,7 @@ class MeetingList(ListAPIView):
 
 
 class MeetingeStablisher(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = MeetingSerializer
     pagination_class = CustomPagination
 
@@ -33,9 +37,11 @@ class MeetingeStablisher(ListAPIView):
 
 
 class PersonelsMeetingList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = PersonelsMeetingSerializer
     pagination_class = CustomPagination
 
     def get_queryset(self):
         meeting_personels = PersonelsMeeting.objects.select_related("meeting", "personel").all()
         return meeting_personels
+    

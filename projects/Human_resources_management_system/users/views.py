@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,6 +10,7 @@ from utils import CustomPagination
 
 
 class UserList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = UserSerializer
     pagination_class = CustomPagination
     
@@ -18,6 +20,7 @@ class UserList(ListAPIView):
 
 
 class UserDetail(APIView):
+    permission_classes = (IsAdminUser,)
 
     def get(self, request, username):
         print("salam")
