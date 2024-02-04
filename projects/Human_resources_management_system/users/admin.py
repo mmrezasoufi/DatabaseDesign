@@ -1,12 +1,36 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import User, WasEmployeed, PhoneNumber, Address
+from .forms import UserAdminCreationForm
 
 
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(BaseUserAdmin):
+
     list_display = ("username", "first_name", "last_name", "birth_date", "gender", "created")
     list_filter = ("gender",)
     list_editable = ("gender",)
+
+    add_form = UserAdminCreationForm
+
+    fieldsets = [
+        (None, {"fields": ["username", "first_name", "last_name", "birth_date", "gender", "password"]}),
+        ("Permissions", {"fields": ["is_staff", "is_superuser"]}),
+    ]
+   
+    add_fieldsets = [
+        (
+            None,
+            {
+                "classes": ["wide"],
+                "fields": ["username", "first_name", "last_name", "birth_date", "gender", "password1", "password2"],
+            },
+        ),
+    ]
+
+    ordering = ["created"]
+
+
+admin.site.register(User, UserAdmin)
 
 
 @admin.register(WasEmployeed)
