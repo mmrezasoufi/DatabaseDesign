@@ -1,10 +1,12 @@
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAdminUser
 from .models import Department, Building
 from .serializers import DepartmentSerializer, BuildingSerializer
 from utils import CustomPagination
 
 
 class DepartmentList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = DepartmentSerializer
     pagination_class = CustomPagination
 
@@ -14,6 +16,7 @@ class DepartmentList(ListAPIView):
 
 
 class BuildingList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = BuildingSerializer
     pagination_class = CustomPagination
 
@@ -23,6 +26,7 @@ class BuildingList(ListAPIView):
     
 
 class DirectorDepartment(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = DepartmentSerializer
     pagination_class = CustomPagination
 

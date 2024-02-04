@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework import status
@@ -10,6 +11,7 @@ from utils import CustomPagination
 
 
 class PersonelList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = PersonelSerializer
     pagination_class = CustomPagination
     
@@ -19,6 +21,7 @@ class PersonelList(ListAPIView):
 
 
 class PersonelDetail(APIView):
+    permission_classes = (IsAdminUser,)
 
     def get(self, request, username):
 
@@ -28,6 +31,7 @@ class PersonelDetail(APIView):
 
 
 class VacationRequestList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = VacationRequestSerializer
     pagination_class = CustomPagination
 
@@ -37,6 +41,7 @@ class VacationRequestList(ListAPIView):
 
 
 class PayrollList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = PayrollSerializer
     pagination_class = CustomPagination
 
@@ -46,6 +51,7 @@ class PayrollList(ListAPIView):
     
 
 class PerformanceReviewList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = PerformanceReviewSerializer
     pagination_class = CustomPagination
 

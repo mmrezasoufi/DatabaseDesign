@@ -1,4 +1,5 @@
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAdminUser
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework import status
@@ -9,6 +10,7 @@ from utils import CustomPagination
 
 
 class ResumeList(ListAPIView):
+    permission_classes = (IsAdminUser,)
     serializer_class = ResumeSerializer
     pagination_class = CustomPagination
 
@@ -18,6 +20,7 @@ class ResumeList(ListAPIView):
     
 
 class ResumeDetail(APIView):
+    permission_classes = (IsAdminUser,)
 
     def get(self, request, username):
 
