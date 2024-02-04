@@ -29,8 +29,8 @@ class PersonelCourse(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = "course"
-        verbose_name_plural = "courses"
+        verbose_name = "personel course"
+        verbose_name_plural = "personel courses"
 
     def __str__(self) -> str:
         return f"{self.personel} - {self.course}"
