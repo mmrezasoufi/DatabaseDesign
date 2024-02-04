@@ -8,7 +8,7 @@ class UserAdmin(BaseUserAdmin):
 
     list_display = ("username", "first_name", "last_name", "birth_date", "gender", "created")
     list_filter = ("gender",)
-    list_editable = ("gender",)
+
 
     add_form = UserAdminCreationForm
 
