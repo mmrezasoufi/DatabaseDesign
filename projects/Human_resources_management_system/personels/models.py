@@ -19,7 +19,7 @@ class Position(models.Model):
 class Personel(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="personels")
-    position = models.OneToOneField(Position, on_delete=models.SET_NULL, related_name="personels", null=True, blank=True)
+    position = models.ForeignKey(Position, on_delete=models.SET_NULL, related_name="personels", null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
