@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Department, Building
+from .models import Department, Building, BuildingDepartment
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -22,6 +22,20 @@ class BuildingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Building
         fields = ("city", "zone", "address", "created")
+
+    def get_created(self, obj):
+        return obj.created.date()
+    
+    
+class BuildingDepartmentSerializer(serializers.ModelSerializer):
+
+    building = BuildingSerializer(many=True)
+    department = DepartmentSerializer(many=True)
+    created = serializers.SerializerMethodField()
+
+    class Meta:
+        model = BuildingDepartment
+        fields = ("building", "department", "created")
 
     def get_created(self, obj):
         return obj.created.date()
